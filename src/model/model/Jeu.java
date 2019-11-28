@@ -1,4 +1,4 @@
-package motus;
+package model;
 
 import java.io.*;
 import java.util.*;
@@ -8,8 +8,7 @@ public class Jeu {
 	private Joueur j1 = new Joueur();
 	private Mot motCorrect ;
 	private String motActuel ; 
-	private String proposition;
-	private Mot motComparaison;
+	private Mot proposition;
 	private char [] lettresActuelles;
 	private int cpt;
 	private boolean motTrouve=false;
@@ -36,12 +35,11 @@ public class Jeu {
 		do {
 			System.out.println("Mot à deviner : "+ this.motActuel);
 			System.out.println("Il vous reste "+j1.getEssaisRestants()+" essais");
-			cpt--;
-			j1.setEssaisRestants(cpt);
 			System.out.print("Votre proposition : ");
-			proposition=sc.nextLine();
+			proposition=new Mot(sc.nextLine());
 			this.TraitementProposition(proposition);
-		}while(j1.getEssaisRestants()>0 && motTrouve!=true);
+			j1.setEssaisRestants(cpt);
+		}while(j1.getEssaisRestants()>0 && motTrouve!=true);		
 		if(motTrouve==false)
 			System.out.println("Dommage,le mot a trouvé était "+motCorrect.getValeur());
 	}
@@ -110,17 +108,17 @@ public class Jeu {
 	 * Methode qui s'occupe du traitement de la proposition faite par le joueur(pas complete pour l'instant)
 	 * @param mot proposition du joueur
 	 */
-	public void TraitementProposition(String mot) {
-		motComparaison = new Mot(mot);
-		if(motCorrect.getValeur().length()==mot.length()) {
-		  if(motCorrect.getValeur().equals(motComparaison.getValeur()))
+	public void TraitementProposition(Mot mot) {
+		if(motCorrect.getValeur().length()==mot.getLongueur()) {
+			cpt--;
+		  if(motCorrect.getValeur().equals(mot.getValeur()))
 		  	{
 			  motTrouve = true;
 			  System.out.println("Bravo vous avez trouvé le mot !");
 			  j1.addScore();
 		  	}
 		  else
-			  traiterLettres(motComparaison);
+			  traiterLettres(mot);
 		  	  setMotActuel();
 		}
 		else 
