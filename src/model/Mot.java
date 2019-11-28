@@ -25,7 +25,8 @@ public class Mot {
 	 * @param valeur 
 	 */
 	public Mot(String valeur) {
-		this.valeur = valeur;
+		this.valeur = format(valeur);
+		this.longueur=this.valeur.length();
 	}
 	/**
 	 * Attribue un mot � valeur
@@ -42,7 +43,7 @@ public class Mot {
 		return valeur;
 	}
 		
-	public static String formatMot(String valeur) {
+	public static String format(String valeur) {
 		String  mot = Normalizer.normalize(valeur, Normalizer.Form.NFD);
 		return mot.replaceAll("[^\\p{ASCII}]", "").toUpperCase();
 	}
