@@ -37,7 +37,8 @@ public class Jeu {
 			System.out.println("Il vous reste "+j1.getEssaisRestants()+" essais");
 			System.out.print("Votre proposition : ");
 			proposition=new Mot(sc.nextLine());
-			this.TraitementProposition(proposition);
+			j1.setProposition(proposition);
+			this.TraitementProposition(j1.proposerMot());
 			j1.setEssaisRestants(cpt);
 		}while(j1.getEssaisRestants()>0 && motTrouve!=true);		
 		if(motTrouve==false)
