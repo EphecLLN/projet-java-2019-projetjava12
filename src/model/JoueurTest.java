@@ -17,15 +17,15 @@ class JoueurTest {
 	void testToString() {
 		Joueur joueur1= new Joueur();
 		joueur1.setPseudo("Patrick");
-		joueur1.score();
+		joueur1.addScore();
 		assertEquals("Joueur =Patrick, score=1",joueur1.toString());
 		
 	}
 	@Test
 	void testScore() {
 		Joueur joueur1= new Joueur();
-		joueur1.score();
-		joueur1.score();
+		joueur1.addScore();
+		joueur1.addScore();
 		assertEquals(2,joueur1.getScore());
 		
 	}
