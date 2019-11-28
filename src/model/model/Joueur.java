@@ -1,4 +1,7 @@
 package motus;
+
+import model.Mot;
+
 /**
  * 
  * @author ProjetJava12 (Patrick Tchoupe)
@@ -8,14 +11,14 @@ public class Joueur {
 	private String pseudo;
 	private int score;
 	private int essaisRestants;
-	private Proposition essai;
+	private Mot proposition;
 	/**
 	 * Constructeur par défaut du joueur
 	 */
 	public Joueur() {
 		this.pseudo="";
 		this.score=0;
-		this.essaisRestants=0;
+		this.essaisRestants=5;
 	}
 	/**
 	 * @return nom du joueur
@@ -54,7 +57,7 @@ public class Joueur {
 	/**
 	 * Incremente les points du joueur de 1
 	 */
-	public void score() {
+	public void addScore() {
 		this.score++;
 	}
 	/**
@@ -62,10 +65,10 @@ public class Joueur {
 	 * @return
 	 */
 	public Mot proposerMot() {
-		return essai;
+		return proposition;
 	}
-	public void setEssai(Proposition essai) {
-		this.essai = essai;
+	public void setProposition(Mot proposition) {
+		this.proposition = proposition;
 	}
 	/**
 	 * affiche les informations relatives au joueur
@@ -75,7 +78,4 @@ public class Joueur {
 		return "Joueur =" + pseudo + ", score=" + score;
 	}
 	
-	
-	
-
 }
