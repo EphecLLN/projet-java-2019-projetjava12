@@ -1,6 +1,4 @@
-package motus;
-
-import model.Mot;
+package model ;
 
 /**
  * 
