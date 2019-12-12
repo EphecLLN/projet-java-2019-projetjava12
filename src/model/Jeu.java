@@ -3,59 +3,27 @@ package model;
 import java.io.*;
 import java.util.*;
 
-public class Jeu {
+public class Jeu extends Observable{
 	
-	private Joueur j1 = new Joueur();
+	private Joueur joueur1 = new Joueur();
 	private Mot motCorrect ;
 	private String motActuel ; 
 	private Mot proposition;
 	private char [] lettresActuelles;
-	private int cpt;
 	private boolean motTrouve=false;
-	
-	/**
-	 * Lancement de la partie de jeu
-	 */
-	public void start() {
-		System.out.println("*********************BIENVENUE DANS LE JEU MOTUS***********************\n");
-		System.out.println("\t\tVeuillez entrer votre pseudo");
-		Scanner sc = new Scanner(System.in);
-		j1.setPseudo(sc.nextLine());
-		System.out.println("C'est Parti "+j1.getPseudo()+"!");
-		this.genererMotCorrect();
-		this.setMotActuel();
-		this.deroulement();
-	}
-	/**
-	 * Cette methode generalise le deroulement de la partie pour un joueur pour l'instant.
-	 */
-	public void deroulement() {
-		Scanner sc = new Scanner(System.in);
-		cpt=j1.getEssaisRestants();
-		do {
-			System.out.println("Mot à deviner : "+ this.motActuel);
-			System.out.println("Il vous reste "+j1.getEssaisRestants()+" essais");
-			System.out.print("Votre proposition : ");
-			proposition=new Mot(sc.nextLine());
-			j1.setProposition(proposition);
-			this.TraitementProposition(j1.proposerMot());
-			j1.setEssaisRestants(cpt);
-		}while(j1.getEssaisRestants()>0 && motTrouve!=true);		
-		if(motTrouve==false)
-			System.out.println("Dommage,le mot a trouvé était "+motCorrect.getValeur());
-	}
 	/**
 	 * Methode qui initialise le mot a trouver et la proposition qui sera faite a l'utilisateur
 	 */
 	public void genererMotCorrect() {
 		Random r = new Random();
-		int n = r.nextInt(100);
+		int n = r.nextInt(30);
 		motCorrect = new Mot(choisirMot(n));
 		int longueur = motCorrect.getValeur().length();
 		String actuel = motCorrect.getValeur().substring(0,1);
 		for(int i=1;i<longueur;i++)
 			actuel += "*";
 		lettresActuelles= actuel.toCharArray();
+		notifyObservers();
 	}
 	/**
 	 * Methode qui recupere un mot dans notre fichier de mots predefinis
@@ -104,19 +72,20 @@ public class Jeu {
 			actuel += lettresActuelles[i];
 		}
 		motActuel = actuel;
+		notifyObservers();
 	}
 	/**
 	 * Methode qui s'occupe du traitement de la proposition faite par le joueur(pas complete pour l'instant)
 	 * @param mot proposition du joueur
 	 */
-	public void TraitementProposition(Mot mot) {
+	public void TraitementProposition(Mot mot) throws IOException{
 		if(motCorrect.getValeur().length()==mot.getLongueur()) {
-			cpt--;
+			joueur1.setEssaisRestants(joueur1.getEssaisRestants()-1);
 		  if(motCorrect.getValeur().equals(mot.getValeur()))
 		  	{
-			  motTrouve = true;
+			  setMotTrouve(true);
 			  System.out.println("Bravo vous avez trouvé le mot !");
-			  j1.addScore();
+			  joueur1.addScore();
 		  	}
 		  else
 			  traiterLettres(mot);
@@ -144,9 +113,6 @@ public class Jeu {
 					lettres[i] = ' ';
 				}
 				else if(occ2 != occ1) {
-					if(lettresActuelles[i]=='*') {
-						lettresActuelles[i]= '*';
-					}
 					lettres[i] = ' ';
 				}
 			}
@@ -168,4 +134,42 @@ public class Jeu {
 	}
 		return res;
 	}
+	@Override
+	public String toString() {
+		String s="";
+		s +="Les informations de la partie sont\n";
+		s += getJoueur().toString();
+		return s;
+	}
+	public Joueur getJoueur() {
+		return joueur1;
+	}
+	public void setJoueur(Joueur j1) {
+		this.joueur1 = j1;
+	}
+	public Mot getProposition() {
+		return proposition;
+	}
+	public void setProposition(Mot proposition) {
+		this.proposition = proposition;
+	}
+	public Mot getMotCorrect() {
+		return motCorrect;
+	}
+	public void setMotCorrect(Mot motCorrect) {
+		this.motCorrect = motCorrect;
+	}
+	public String getMotActuel() {
+		return motActuel;
+	}
+	public void setMotActuel(String motActuel) {
+		this.motActuel = motActuel;
+	}
+	public boolean isMotTrouve() {
+		return motTrouve;
+	}
+	public void setMotTrouve(boolean motTrouve) {
+		this.motTrouve = motTrouve;
+	}
+	
 }
