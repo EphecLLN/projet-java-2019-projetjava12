@@ -43,9 +43,6 @@ public class JeuController {
 	public String getPseudo() {
 		return model.getJoueur().getPseudo();
 	}
-	/*public void init() throws IOException {
-		model.start();
-	}*/
 	public void setMotActuel() {
 		this.model.setMotActuel();
 	}
@@ -66,6 +63,11 @@ public class JeuController {
 	}
 	public void addView(JeuVue view) {
 		this.view=view;
+	}
+
+	@Override
+	public String toString() {
+		return model.toString();
 	}
 	
 }
