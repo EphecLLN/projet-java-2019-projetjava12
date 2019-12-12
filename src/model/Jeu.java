@@ -11,24 +11,31 @@ public class Jeu extends Observable{
 	private Mot proposition;
 	private char [] lettresActuelles;
 	private boolean motTrouve=false;
+	//Liste de mots deja joues pour ne plus proposer les memes aux joueurs
+	private ArrayList<String> motDejaChoisis = new ArrayList<String>();
 	/**
 	 * Methode qui initialise le mot a trouver et la proposition qui sera faite a l'utilisateur
 	 */
 	public void genererMotCorrect() {
 		Random r = new Random();
-		int n = r.nextInt(30);
-		motCorrect = new Mot(choisirMot(n));
-		int longueur = motCorrect.getValeur().length();
+		int n = r.nextInt(448);
+		while((motCorrect = new Mot(choisirMot(n))) == null && 
+				motDejaChoisis.contains(motCorrect.getValeur()))
+		{
+			n=r.nextInt(448);
+			motCorrect = new Mot(choisirMot(n));
+		}
+		motDejaChoisis.add(motCorrect.getValeur());
 		String actuel = motCorrect.getValeur().substring(0,1);
-		for(int i=1;i<longueur;i++)
+		for(int i=1;i<motCorrect.getLongueur();i++)
 			actuel += "*";
 		lettresActuelles= actuel.toCharArray();
 		notifyObservers();
 	}
 	/**
-	 * Methode qui recupere un mot dans notre fichier de mots predefinis
+	 * Methode qui recupere un mot dans notre fichier de mots predefini
 	 * @param n la ligne (aléatoire) du mot
-	 * @return le mot qui devra etre devine
+	 * @return le mot qui devra etre deviné
 	 */
 	public String choisirMot(int n) {
 		FileReader f = null;
