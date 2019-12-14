@@ -1,7 +1,7 @@
 package test;
 
-import java.applet.Applet;
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,43 +17,46 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class viewTest extends Applet {
-	
+public class viewTest extends Canvas {
+
 	/*Ecran menu principal*/
-	private JFrame ecranMenuPrincipal;
-	private JButton bouton;
-	private JButton bouton2;
-	private JPanel panneau;
-	private ImageIcon icone;
-	private JLabel image;
-	private JLabel label;
-	private JLabel label2;
-	
-	
-	/*Ecran Jeu*/
-	private JFrame appli;
-	private JPanel pannel;
-	private JButton cmdOK;
-	private JTextField txtMot;
-	private JLabel label1;
-	private JLabel labelMessage;
-	private JLabel titre;
-	private JLabel titre2;
+	private static JFrame ecranMenuPrincipal;
+	private static JButton bouton;
+	private static JButton bouton2;
+	private static JPanel panneau;
+	private static ImageIcon icone;
+	private static JLabel image;
+	private static JLabel label;
+	private static JLabel label2;
 	
 	/*Pannel de boutons */
-	private JPanel pannelBouton;
-	private JButton boutonExit;
-	private JButton boutonMenu;
+	private static JPanel pannelBouton;
+	private static JButton boutonExit;
+	private static JButton boutonMenu;
 	
-	private String nom;
+	/*Ecran Jeu*/
+	private static JFrame appli;
+	private static JPanel pannel;
+	private static JButton cmdOK;
+	private static JTextField txtMot;
+	private static JLabel label1;
+	private static JLabel labelMessage;
+	private static JLabel titre;
+	private static JLabel titre2;
+	
+	private static String nom;
+	private static String nom2 = "Steven";
+
+	
 	
 	public viewTest() {
-		
-		menuPrincipal();
-	}
+
+    }
+
 	
+
 	/*Lancement du menu principal*/
-	public void menuPrincipal() {
+	public static void menuPrincipal() {
 		ecranMenuPrincipal = new JFrame("Menu Principal");
 		ecranMenuPrincipal.setSize(1280,720);
 		ecranMenuPrincipal.setResizable(false);
@@ -65,44 +68,13 @@ public class viewTest extends Applet {
         /*Création des boutons de naviguation*/
         bouton = new JButton("1 Joueur !");
         label = new JLabel("Voulez-vous jouer en Solitaire ?");
-        bouton.addActionListener(new ActionListener() {
-        	
-			/*Lancement du Jeu*/
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gui();
-				ecranMenuPrincipal.setVisible(false);
-				/*Boite de Dialogue demandant le pseudo du joueur*/
-				JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-				nom = jop.showInputDialog(null, "Choisissez un pseudo !", "Choix Pseudo", JOptionPane.QUESTION_MESSAGE);
-				jop2.showMessageDialog(null, "Votre pseudo est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
         
         bouton2 = new JButton("2 Joueurs !");
         label2 = new JLabel("Voulez-vous jouer en Multijoueur ?");
-        bouton2.addActionListener(new ActionListener() {
-        	
-			/*Lancement du jeu*/
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gui();
-				ecranMenuPrincipal.setVisible(false);
-				JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-				nom = jop.showInputDialog(null, "Choisissez un pseudo !", "Choix Pseudo", JOptionPane.QUESTION_MESSAGE);
-				jop2.showMessageDialog(null, "Votre pseudo est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
+
         
         boutonExit = new JButton("Quitter le jeu !");
-        boutonExit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-  
+
         /*Ajout des boutons au pannel ainsi que leur étiquette*/
         panneau.add(bouton);
         panneau.add(label);
@@ -127,9 +99,8 @@ public class viewTest extends Applet {
 	
 	}
 	
-	/*Vue de l'ecran de jeu*/
-	public void gui() {
-				
+	public static void jeu() {
+		
 		/*Ecran de Jeu*/
 		appli = new JFrame("Motus : Le Jeu");
 		appli.setSize(1280,720);
@@ -210,32 +181,97 @@ public class viewTest extends Applet {
         appli.setVisible(true);
         appli.setLocationRelativeTo( null );
         
-		}
+        dessin();
+}
+
 	
-	/* Dessiner l'interface*/
-	public void dessinInterface(Graphics G) {
+	public static void dessin() {
+        JFrame frame = new JFrame("Motus: Le Jeu");
+        frame.setLocationRelativeTo( null );
+        frame.setUndecorated(true);
+        frame.setOpacity(0.5f);
+        Canvas canvas = new viewTest();
+        canvas.setSize(400, 400);
+        frame.add(canvas);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        /*Etiquette demandant au joueur de choisir son mot*/
+        label1=new JLabel("Your word : ");
+		label1.setFont(new Font("Time New Roman",Font.ITALIC+Font.BOLD,20));	 
+		label1.setForeground(Color.red);
+		label1.setBounds(400,550,120,50);
+		
+		
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo( null );
+	}
+	
+    public static void main(String[] args) {
+    	menuPrincipal();
+    	bouton.addActionListener(new ActionListener() {
+    	
+			/*Lancement du jeu*/
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jeu();
+				ecranMenuPrincipal.setVisible(false);
+				if(nom == null) {
+					JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+					nom = JOptionPane.showInputDialog(null, "Choisissez un pseudo !", "Choix Pseudo", JOptionPane.QUESTION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Votre pseudo est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Votre pseudo est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+    	});
+    	
+        bouton2.addActionListener(new ActionListener() {
+        	
+			/*Lancement du jeu*/
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jeu();
+				ecranMenuPrincipal.setVisible(false);
+				if(nom == null) {
+					JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+					nom = JOptionPane.showInputDialog(null, "Choisissez un pseudo pour le joueur 1 !", "Choix Pseudo", JOptionPane.QUESTION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Le pseudo du Joueur 1 est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Le pseudo du Joueur 1 est " + nom, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+				if(nom2 == null) {
+					JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+					nom2 = JOptionPane.showInputDialog(null, "Choisissez un pseudo pour le joueur 2 !", "Choix Pseudo", JOptionPane.QUESTION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Le pseudo du Joueur 2 est " + nom2, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Le pseudo du Joueur 2 est " + nom2, "Identité", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+        
+        boutonExit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
+    }
+
+    public void paint(Graphics G) {
 		/*Initialisation de l'emplacement et du nombre de case*/
-		int x=350,y=150,nb=0;
-		/*Boucle créant les case une par une jusque 25 cases (5x5)*/
+		int x=20,y=20,nb=0;
+		/*Boucle cr�ant les case une par une jusque 25 cases (5x5)*/
 		while(nb < 25){
 			G.drawRect(x,y,70,70);
 			x+=70;nb++;
-			if(nb % 5 == 0) {x=350; y+=70;}
+			if(nb % 5 == 0) {x=20; y+=70;}
 		}
-		/*Couleur et police de l'interface*/
-		G.setFont(new Font("Helvetika",Font.BOLD,20)); 
-		G.setColor(Color.black);
-	}
-	
-	public void paint(Graphics G) {
-		
-		dessinInterface(G);
-	}
-	
-	
-
-	
-	public static void main(String[] args) {
-		new viewTest();
 	}
 }
