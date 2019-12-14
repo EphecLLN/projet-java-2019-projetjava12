@@ -1,5 +1,6 @@
 package test;
 
+import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,9 +9,15 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class viewTest {
+public class viewTest extends Applet {
 	
 	/*Ecran menu principal*/
 	private JFrame ecranMenuPrincipal;
@@ -122,7 +129,7 @@ public class viewTest {
 	
 	/*Vue de l'ecran de jeu*/
 	public void gui() {
-		
+				
 		/*Ecran de Jeu*/
 		appli = new JFrame("Motus : Le Jeu");
 		appli.setSize(1280,720);
@@ -201,8 +208,31 @@ public class viewTest {
 		appli.add(pannel);
 		appli.add(pannelBouton, BorderLayout.SOUTH);
         appli.setVisible(true);
-        appli.setLocationRelativeTo( null );    
+        appli.setLocationRelativeTo( null );
+        
+		}
+	
+	/* Dessiner l'interface*/
+	public void dessinInterface(Graphics G) {
+		/*Initialisation de l'emplacement et du nombre de case*/
+		int x=350,y=150,nb=0;
+		/*Boucle créant les case une par une jusque 25 cases (5x5)*/
+		while(nb < 25){
+			G.drawRect(x,y,70,70);
+			x+=70;nb++;
+			if(nb % 5 == 0) {x=350; y+=70;}
+		}
+		/*Couleur et police de l'interface*/
+		G.setFont(new Font("Helvetika",Font.BOLD,20)); 
+		G.setColor(Color.black);
 	}
+	
+	public void paint(Graphics G) {
+		
+		dessinInterface(G);
+	}
+	
+	
 
 	
 	public static void main(String[] args) {
