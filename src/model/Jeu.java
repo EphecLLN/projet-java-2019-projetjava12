@@ -8,11 +8,13 @@ public class Jeu extends Observable{
 	private Joueur joueur1 = new Joueur();
 	private Mot motCorrect ;
 	private String motActuel ; 
-	private Mot proposition;
+	private String proposition;
 	private char [] lettresActuelles;
 	private boolean motTrouve=false;
+	
 	//Liste de mots deja joues pour ne plus proposer les memes aux joueurs
 	private ArrayList<String> motDejaChoisis = new ArrayList<String>();
+	
 	/**
 	 * Methode qui initialise le mot a trouver et la proposition qui sera faite a l'utilisateur
 	 */
@@ -30,6 +32,7 @@ public class Jeu extends Observable{
 		for(int i=1;i<motCorrect.getLongueur();i++)
 			actuel += "*";
 		lettresActuelles= actuel.toCharArray();
+		setChanged();
 		notifyObservers();
 	}
 	/**
@@ -73,34 +76,33 @@ public class Jeu extends Observable{
 	/**
 	 * Met a jour le mot actuel en fonction des bonnes propositions faites par le joueur
 	 */
-	public void setMotActuel() {
+	public void updateActuel() {
 		String actuel = "";
 		for(int i = 0; i < lettresActuelles.length; i++) {
 			actuel += lettresActuelles[i];
 		}
 		motActuel = actuel;
+		setChanged();
 		notifyObservers();
 	}
 	/**
 	 * Methode qui s'occupe du traitement de la proposition faite par le joueur(pas complete pour l'instant)
 	 * @param mot proposition du joueur
 	 */
-	public void TraitementProposition(Mot mot) throws IOException{
-		if(motCorrect.getValeur().length()==mot.getLongueur()) {
+	public boolean TraitementProposition(Mot mot) throws IOException{
+		boolean bon=false;
 			joueur1.setEssaisRestants(joueur1.getEssaisRestants()-1);
 		  if(motCorrect.getValeur().equals(mot.getValeur()))
 		  	{
-			  setMotTrouve(true);
-			  System.out.println("Bravo vous avez trouvé le mot !");
 			  joueur1.addScore();
+			  bon=true;
+			  motTrouve=true;
 		  	}
-		  else
+		  else {
 			  traiterLettres(mot);
-		  	  setMotActuel();
-		}
-		else 
-			System.out.println("Entrez un mot de meme longueur que le mot à trouver");
-			
+		  	  updateActuel();
+		  	  }	
+		  	  return bon;
 	}
 	/**
 	 * Methode de traitement des lettres du mot proposées par le joueur
@@ -154,29 +156,43 @@ public class Jeu extends Observable{
 	public void setJoueur(Joueur j1) {
 		this.joueur1 = j1;
 	}
-	public Mot getProposition() {
+	public String getProposition() {
 		return proposition;
 	}
-	public void setProposition(Mot proposition) {
+	public void setProposition(String proposition) {
 		this.proposition = proposition;
+		setChanged();
+		notifyObservers();
 	}
 	public Mot getMotCorrect() {
 		return motCorrect;
 	}
 	public void setMotCorrect(Mot motCorrect) {
 		this.motCorrect = motCorrect;
+		setChanged();
+		notifyObservers();
 	}
 	public String getMotActuel() {
 		return motActuel;
 	}
 	public void setMotActuel(String motActuel) {
 		this.motActuel = motActuel;
+		setChanged();
+		notifyObservers();
 	}
 	public boolean isMotTrouve() {
 		return motTrouve;
 	}
 	public void setMotTrouve(boolean motTrouve) {
 		this.motTrouve = motTrouve;
+	}
+	public char[] getLettresActuelles() {
+		return lettresActuelles;
+	}
+	public void setLettresActuelles(char[] lettresActuelles) {
+		this.lettresActuelles = lettresActuelles;
+		setChanged();
+		notifyObservers();
 	}
 	
 }
