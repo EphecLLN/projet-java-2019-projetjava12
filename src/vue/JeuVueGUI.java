@@ -51,16 +51,4 @@ public class JeuVueGUI extends JeuVue implements Observer,ActionListener{
 		}while(length==false);
 		}
 	}
-	//suivant un exemple de la prof mais pas encore implementé
-	@Override
-	public void enableWarning() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void disableWarning() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
