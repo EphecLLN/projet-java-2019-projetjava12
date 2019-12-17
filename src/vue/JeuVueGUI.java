@@ -33,10 +33,6 @@ public class JeuVueGUI extends JeuVue implements Observer,ActionListener{
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		//updateTable(txtmot.getText().length() == model.getMotCorrect().getLongueur());
-		//txtmot.setText("");
-		/*fieldEssaiRest.setText(String.valueOf(controller.getEssaiRest()));
-		fieldPoints1.setText(String.valueOf(controller.getJoueurActuel().getPoints()));*/
 		
 	}
 
