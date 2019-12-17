@@ -10,14 +10,14 @@ public class JeuMVC {
 		Jeu model = new Jeu();
 		
 		//les controleurs des differentes vues
-		//JeuController ctrlConsole =new JeuController(model);
+		JeuController ctrlConsole =new JeuController(model);
 		JeuController ctrlGUI = new JeuController(model);
 		
 		//les differentes vues
-		//JeuVueConsole console = new JeuVueConsole(model,ctrlConsole);
+		JeuVueConsole console = new JeuVueConsole(model,ctrlConsole);
 		JeuVueGUI gui = new JeuVueGUI(model,ctrlGUI);
 		
-		//ctrlConsole.addView(console);
+		ctrlConsole.addView(console);
 		ctrlGUI.addView(gui);
 	}
 
