@@ -34,7 +34,7 @@ Notre version de jeu proposera deux modes de jeu, partie solo ou multijoueur(1 v
 * La présence de deux joueurs pour le mode multijoueur est requise 
 * Le mot proposé par le joueur doit être de même longueur que le mot à deviner 
 * Le joueur a cinq tentatives pour trouver le bon mot 
-* Lorsqu’une lettre du mot proposé par le jouer se trouve dans le mot à deviner, celle-ci est coloriée en Jaune, si la lettre est à la bonne place dans le mot à deviner, elle est coloriée en rouge et se trouve dans la proposition suivante. 
+* Lorsqu’une lettre du mot proposé par le joueur se trouve dans le mot à deviner, celle-ci est coloriée en Jaune, si la lettre est à la bonne place dans le mot à deviner, elle est coloriée en rouge et se trouve dans la proposition suivante. 
 * Le nombre de points marqués est égale au nombre de tentatives restantes 
 * Le premier des deux joueurs à atteindre 5 points remporte la partie. 
  
